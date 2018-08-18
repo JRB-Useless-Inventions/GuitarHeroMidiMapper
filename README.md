@@ -1,6 +1,10 @@
 # GuitarHeroMidiMapper
 A MIDI Mapper for any Guitar Hero Contorller
 
+This program is intended for the Guitar Hero World Tour Controller, but can work with pretty much anyother device including the regular Xbox360 Gamepad.
+
+This code uses Xinput and RtMidi.
+
 Fret 0 : None
 Fret 1 : G
 Fret 2 : R
