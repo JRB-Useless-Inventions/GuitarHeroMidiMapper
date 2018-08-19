@@ -1,9 +1,13 @@
 # GuitarHeroMidiMapper
 A MIDI Mapper for any Guitar Hero Contorller
 
+OS: Win
+Libraries: This code uses the C++ Xinput and RtMidi lirbaries.
+Hardware: All XBOX 360 Controller Devices
+
 This program is intended for the Guitar Hero World Tour Controller, but can work with pretty much anyother device including the regular Xbox360 Gamepad.
 
-This code uses the C++ Xinput and RtMidi lirbaries.
+* Default Map
 
 Fret 0 : None
 Fret 1 : G
@@ -29,12 +33,13 @@ Download loopMIDI from http://www.tobias-erichsen.de/wp-content/uploads/2015/08/
 Open loopMIDI.
 Activate a port.
 Program will link the MIDI to this port.
-Connect to a software device via the ‘Preferences’ menu.
+Connect to your favourite soft sampler.
 Shred away.
 
 
 Upcoming Features:
-A GUI whcih allows the user to change which button / button combination sends out a custom middi message.
-GUI allows for different MIDI port mapping.
+A GUI whcih allows the user to change which button / button combination sends out a custom midi message.
+A GUI which allows for different MIDI port mapping.
 OSX & Linux support.
 Controller Accelerometer features.
+Test XBOX One Controller Hardware
