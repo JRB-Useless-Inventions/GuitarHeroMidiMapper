@@ -3,7 +3,7 @@ A MIDI Mapper for any Guitar Hero Contorller
 
 This program is intended for the Guitar Hero World Tour Controller, but can work with pretty much anyother device including the regular Xbox360 Gamepad.
 
-This code uses Xinput and RtMidi.
+This code uses the C++ Xinput and RtMidi lirbaries.
 
 Fret 0 : None
 Fret 1 : G
@@ -28,6 +28,13 @@ Orange is TBC on functionality.
 Download loopMIDI from http://www.tobias-erichsen.de/wp-content/uploads/2015/08/loopMIDISetup_1_0_13_24.zip
 Open loopMIDI.
 Activate a port.
-Program will link the MIDI to this port. No error checking as of yet, to alter access midi.h and change the midiout->openport(x) to the relevant port number.
+Program will link the MIDI to this port.
 Connect to a software device via the ‘Preferences’ menu.
 Shred away.
+
+
+Upcoming Features:
+A GUI whcih allows the user to change which button / button combination sends out a custom middi message.
+GUI allows for different MIDI port mapping.
+OSX & Linux support.
+Controller Accelerometer features.
