@@ -1,0 +1,3 @@
+﻿  Source.cpp
+Source.obj : error LNK2019: unresolved external symbol XInputGetState referenced in function main
+c:\users\jack\documents\visual studio 2015\Projects\ConsoleApplication5\x64\Debug\ConsoleApplication5.exe : fatal error LNK1120: 1 unresolved externals
