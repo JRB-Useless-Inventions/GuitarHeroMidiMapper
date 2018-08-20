@@ -1,5 +1,5 @@
 #include "RtMidi.h"
-#include <iostream>
+#include <iostream> //For debug
 using namespace std;
 
 class MIDI
@@ -8,7 +8,6 @@ private:
 	RtMidiOut *midiout = new RtMidiOut();
 	unsigned int nPorts = midiout->getPortCount();
 public:
-	
 	vector<unsigned char> message;
 	void sendMessage(vector<unsigned char> in);
 	int setPort(int port);

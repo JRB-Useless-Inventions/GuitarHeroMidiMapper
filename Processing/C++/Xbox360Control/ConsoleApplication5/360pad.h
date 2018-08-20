@@ -10,6 +10,8 @@ private:
 	float deadzoneX;
 	float deadzoneY;
 
+	bool held = false;
+
 public:
 	Gamepad() : deadzoneX(0.05f), deadzoneY(0.02f) {}
 	Gamepad(float dzX, float dzY) : deadzoneX(dzX), deadzoneY(dzY) {}
@@ -36,6 +38,8 @@ public:
 	WORD X = XINPUT_GAMEPAD_X;
 	WORD RB = XINPUT_GAMEPAD_RIGHT_SHOULDER;
 	WORD LB = XINPUT_GAMEPAD_LEFT_SHOULDER;
+	WORD DPU = XINPUT_GAMEPAD_DPAD_UP;
+	WORD DPD = XINPUT_GAMEPAD_DPAD_DOWN;
 
 };
 
