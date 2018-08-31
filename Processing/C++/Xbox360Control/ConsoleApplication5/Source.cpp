@@ -65,12 +65,6 @@ int main(){
 
 	bool wasConnected = true;
 
-	midi.message.push_back(0);
-	midi.message.push_back(0);
-	midi.message.push_back(0);
-	//Midi Message must be 3 bytes long
-
-
 	// Program change: 192, 5
 	midi.message[0] = 192;
 	midi.message[1] = 5;
