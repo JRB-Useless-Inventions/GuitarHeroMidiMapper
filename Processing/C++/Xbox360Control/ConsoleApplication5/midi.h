@@ -2,6 +2,20 @@
 #include <iostream> //For debug
 using namespace std;
 
+
+vector<unsigned char> sanitizeArrayValue(vector<unsigned char> arr, int max) {
+	for (int i = 0; i < 3; i++) {
+		if (arr[i] > max) {
+			arr[i] = max;
+		}
+		else if (arr[i] < 0) {
+			arr[i] = 0;
+		}
+	}
+
+	return arr;
+}
+
 class MIDI
 {
 private:
@@ -26,7 +40,7 @@ MIDI::MIDI(){
 	message.push_back(0);
 	//Midi Message must be 3 bytes long
 }
-~MIDI::MIDI(){
+MIDI::~MIDI(){
 
 }
 
@@ -35,13 +49,19 @@ bool MIDI::sendMessage(vector<unsigned char> in) {
 	//int data1 = in[1];
 	//int data2 = in[2];
 
-	if(checkArraySize(in,MAX_BITS) == false){
+	in = sanitizeArrayValue(in, this->MAX_VALUE);
 
-	}else{
+	try
+	{
 		midiout->sendMessage(&in);
-
 		return true; //Message Sent
 	}
+	catch (const std::exception&)
+	{
+		cout << 111;
+		throw "MIDI Message not sent";
+		return false; //Message not sent
+	}	
 }
 
 int MIDI::setPort(int port) {
@@ -49,39 +69,35 @@ int MIDI::setPort(int port) {
 
 	if (nPorts == 0) {
 		cout << "No ports available!\n";
-		return void;
+		return 0;
 	}
 	else if (port > nPorts) {
 		cout << "PORT NUMBER EXCEEDS MAXIMUM OF " << nPorts;
 	}
 	else {
-		midiout->openPort(port);
-		cout <<midiout->getPortName(port) << endl;
+		try
+		{
+			midiout->openPort(port);
+			cout << midiout->getPortName(port) << endl;
+			return true; //Message sent
+		}
+		catch (const std::exception&)
+		{
+			return false; //Message not sent
+		}
+		
+		
 	}
-	return 0;
 }
 
-int checkArraySize(arr,max){
+int checkArraySize(int arr,int max){
 	bool out = true;
 
-	if (length(arr) != max)
+	if (sizeof(arr) != max)
 	{
 		out = !out;
 	}
 
 	return out;
 }
-int checkArrayValue(arr,max){
-	bool out = true;
 
-	for(int i = 0; i < length(arr); i++){
-		if (arr[i] > max){
-			arr[i] = max;
-		}
-		else if (arr[i] <= 0){
-			arr[i] = 0;
-		}
-	}
-
-	return arr;
-}
