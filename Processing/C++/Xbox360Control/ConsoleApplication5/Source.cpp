@@ -1,7 +1,5 @@
 #include <string>
 #include <iostream>
-#include <sstream>
-#include <fstream>
 #include <Windows.h>
 #include "midi.h"
 #include "360pad.h"
@@ -17,6 +15,7 @@ public:
 	int getDefaultValue();
 	bool held = false;
 	WORD ID = 0;
+	void onAction(bool trig);
 private:
 	int value = 0;
 	int defaultValue = 0;
@@ -30,7 +29,22 @@ Button::Button(WORD id)
 Button::~Button()
 {
 }
-
+void MIDI::onAction(bool trig){
+	if (trig) {
+		if (this->held == true){
+			//Do nothing...
+		}
+		else{
+			this->setValue(this->getDefaultValue());
+			this->held = false;
+		}
+		this->held = true;
+	}
+	else {
+		this->held = false;
+		this->setValue(0);
+	}
+}
 int Button::getDefaultValue() {
 	return this->defaultValue;
 }
@@ -42,6 +56,31 @@ int Button::getValue() {
 }
 void Button::setValue(int x) {
 	this->value = x;
+}
+
+class Trigger
+{
+public:
+	Button(WORD);
+	~Button();
+	void setValue(int);
+	int getValue();
+	WORD ID = 0;
+	void onChange(int);
+private:
+	int value = 0;
+};
+
+Trigger::Trigger(WORD id){
+
+	this->ID = id;
+}
+
+Trigger::~Trigger(){
+
+}
+Trigger::onChange(int val){
+	//Trigger value changed
 }
 
 int main(){
@@ -56,24 +95,14 @@ int main(){
 	Yellow.setDefaultValue(4);
 	Button Blue(gamepad.X);
 	Blue.setDefaultValue(8);
+	Button Orange(gamepad.LB);
+	Orange.setDefaultValue(0);
 	Button StrumUp(gamepad.DPU);
 	Button StrumDown(gamepad.DPD);
 
-	int tuning = 32;
-
 	MIDI midi;
+	int tuning = 32;
 	midi.setPort(1);
-
-	// Program change: 192, 5
-	midi.message[0] = 192;
-	midi.message[1] = 5;
-	midi.sendMessage(midi.message);
-	// Control Change: 176, 7, 100 (volume)
-	midi.message[0] = 176;
-	midi.message[1] = 7;
-	midi.message[2] = 100;
-	midi.sendMessage(midi.message);
-
 	bool wasConnected = true;
 
 	while (true){
@@ -88,88 +117,33 @@ int main(){
 			//Gamepad Found!!
 			if (!wasConnected){
 				wasConnected = true;
-
-				// Program change: 192, 5
-				midi.message[0] = 192;
-				midi.message[1] = 5;
-				midi.sendMessage(midi.message);
-				// Control Change: 176, 7, 100 (volume)
-				midi.message[0] = 176;
-				midi.message[1] = 7;
-				midi.message[2] = 100;
-				midi.sendMessage(midi.message);
-
-
-				cout << "Controller connected on port " << gamepad.GetPort() << endl;
-			}
-			if (gamepad.IsPressed(Green.ID)) {
-				if (Green.held == true){
-					//Do nothing...
+				try
+				{
+					midi.sendMessage(midi.message); // Test Connection
+					cout << "Controller connected on port " << gamepad.GetPort() << endl;
 				}
-				else{
-					Green.setValue(Green.getDefaultValue());
-					Green.held = false;
+				catch (const std::exception&)
+				{
+					//Alert user the midi message failed to send
+					throw "MIDI Message not sent";
 				}
-				Green.held = true;
 			}
-			else {
-				Green.held = false;
-				Green.setValue(0);
-			}
-
-			if (gamepad.IsPressed(Red.ID)) {
-				if (Red.held == true) {
-					//Do nothing...
-				}
-				else {
-					Red.setValue(Red.getDefaultValue());
-					Red.held = false;
-				}
-				Red.held = true;
-			}
-			else {
-				Red.held = false;
-				Red.setValue(0);
-			}
-
-			if (gamepad.IsPressed(Yellow.ID)) {
-				if (Yellow.held == true) {
-					//Do nothing...
-				}
-				else {
-					Yellow.setValue(Yellow.getDefaultValue());
-					Yellow.held = false;
-				}
-				Yellow.held = true;
-			}
-			else {
-				Yellow.held = false;
-				Yellow.setValue(0);
-			}
-
-			if (gamepad.IsPressed(Blue.ID)) {
-				if (Blue.held == true) {
-					//Do nothing...
-				}
-				else {
-					Blue.setValue(Blue.getDefaultValue());
-					Blue.held = false;
-				}
-				Blue.held = true;
-			}
-			else {
-				Blue.held = false;
-				Blue.setValue(0);
-			}
-
+			//GREEN
+			Green.onAction(gamepad.IsPressed(Green.ID));
+			//RED
+			Red.onAction(gamepad.IsPressed(Red.ID));
+			//YELLOW
+			Yellow.onAction(gamepad.IsPressed(Yellow.ID));
+			//BLUE
+			Blue.onAction(gamepad.IsPressed(Blue.ID));
 
 			if (gamepad.getRightTriggerValue()) {
 				if(gamepad.getRightTriggerValue() == 0)
 
 				//Send out midi message
-				midi.message[0] = 224;
+				midi.message[0] = 224;//Pitch Bend
 				midi.message[1] = 0;
-				midi.message[2] = gamepad.getRightTriggerValue();
+				midi.message[2] = gamepad.getRightTriggerValue(); //Value
 				midi.sendMessage(midi.message);
 			}
 			else {
@@ -186,13 +160,9 @@ int main(){
 					//Do nothing...
 				}
 				else {
-
-					// Note On: 144, 64, 90
-					midi.message[0] = 144; //Note on
-					midi.message[1] = note+tuning;//note+tuning; //Pitch
+					//Initial Press
+					midi.sendMessage(midi.noteOn(0,note+tuning,127));
 					lastNote = midi.message[1];
-					midi.message[2] = 127; //Velo
-					midi.sendMessage(midi.message);
 
 					cout << "(Down) button pressed" << endl;
 					StrumDown.held = false;
@@ -202,15 +172,11 @@ int main(){
 				StrumDown.held = true;
 			}
 			else {
-				// Note Off: 128, 64, 40
-				midi.message[0] = 128;
-				midi.message[1] = lastNote;
-				midi.message[2] = 90;
-				midi.sendMessage(midi.message);
-				//cout << "(A) button released" << endl;
+
+				midi.sendMessage(midi.noteOff(0,lastNote,0));
 				StrumDown.held = false;
 			}
-		}
+		}//Controller Connected
 		Sleep(10);
 	}//Forever Loop
 }//Main

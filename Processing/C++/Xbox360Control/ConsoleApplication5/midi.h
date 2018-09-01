@@ -4,6 +4,7 @@ using namespace std;
 
 
 vector<unsigned char> sanitizeArrayValue(vector<unsigned char> arr, int max) {
+	//If a value of an array is out of bounds, re-write to maximum value
 	for (int i = 0; i < 3; i++) {
 		if (arr[i] > max) {
 			arr[i] = max;
@@ -28,6 +29,8 @@ public:
 	vector<unsigned char> message;
 	bool sendMessage(vector<unsigned char> in);
 	int setPort(int port);
+	vector<unsigned char> noteOn(int chnl, int pitch, int velo);
+	vector<unsigned char> noteOff(int chnl, int pitch, int velo);
 	
 	int MAX_BITS = 3;
 	int MAX_VALUE = 255;
@@ -90,14 +93,31 @@ int MIDI::setPort(int port) {
 	}
 }
 
-int checkArraySize(int arr,int max){
-	bool out = true;
-
-	if (sizeof(arr) != max)
-	{
-		out = !out;
+vector<unsigned char> MIDI::noteOn(int chnl = 1, int pitch, int velo){
+	if (chnl <= 0){
+		chnl = 1;
 	}
+	else if (chnl > 16){
+		chnl = 16;
+	}
+	this->message[0] = 143+chnl;
+	this->message[1] = pitch;
+	this->message[2] = velo;
 
-	return out;
+	return this->message;
+
 }
 
+vector<unsigned char> MIDI::noteOff(int chnl = 0, int pitch, int velo){
+	if (chnl <= 0){
+		chnl = 1;
+	}
+	else if (chnl > 16){
+		chnl = 16;
+	}
+	this->message[0] = 127+chnl;
+	this->message[1] = pitch;
+	this->message[2] = velo;
+
+	return this->message;
+}
