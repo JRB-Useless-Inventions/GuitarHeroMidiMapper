@@ -136,6 +136,8 @@ int main(){
 			Yellow.onAction(gamepad.IsPressed(Yellow.ID));
 			//BLUE
 			Blue.onAction(gamepad.IsPressed(Blue.ID));
+            
+            class
 
 			if (gamepad.getRightTriggerValue()) {
 				if(gamepad.getRightTriggerValue() == 0)

@@ -48,15 +48,12 @@ MIDI::~MIDI(){
 }
 
 bool MIDI::sendMessage(vector<unsigned char> in) {
-	//int status = in[0];
-	//int data1 = in[1];
-	//int data2 = in[2];
-
 	in = sanitizeArrayValue(in, this->MAX_VALUE);
+	vector<unsigned char> out = in;
 
 	try
 	{
-		midiout->sendMessage(&in);
+		midiout->sendMessage(&out); //Once the message is set the marray is reset to 0
 		return true; //Message Sent
 	}
 	catch (const std::exception&)
