@@ -6,7 +6,7 @@ A MIDI Mapper for the Xbox360 Guitar Hero Contorller
 
 This program is intended for the Guitar Hero World Tour Controller, but can work with pretty much anyother device including the regular Xbox360 Gamepad.
 
-##Sending MIDI Messages
+###Sending MIDI Messages
 ```C++
 #include "midi.h"
 
