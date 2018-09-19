@@ -7,6 +7,7 @@ A MIDI Mapper for the Xbox360 Guitar Hero Contorller
 This program is intended for the Guitar Hero World Tour Controller, but can work with pretty much anyother device including the regular Xbox360 Gamepad.
 
 ###Sending MIDI Messages
+
 ```C++
 #include "midi.h"
 
@@ -16,7 +17,8 @@ midi.sendMessage(midi.noteOn(0,60,127)); //On Channel 0 trigger midi note 60 @ 1
 Sleep(1000); //Hold note for 1 sec
 midi.sendMessage(midi.noteOff(0,60,0)); //On Channel 0 trigger midi note 60 @ 127 Velocity OFF
 ```
-##Xbox360 Peripheral Trigger Event
+###Xbox360 Peripheral Trigger Event
+
 ```C++
 #include "360pad.h"
 
@@ -43,6 +45,7 @@ else{
 ### Prerequisites
 
 OS: Win
+
 ##Libraries
 ##RtMidi - https://github.com/thestk/rtmidi
 ##XInput - https://docs.microsoft.com/en-us/windows/desktop/xinput/xinput-versions
