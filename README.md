@@ -1,11 +1,85 @@
 # GuitarHeroMidiMapper
-A MIDI Mapper for any Guitar Hero Contorller
 
-OS: Win
-Libraries: This code uses the C++ Xinput and RtMidi lirbaries.
-Hardware: All XBOX 360 Controller Devices
+A MIDI Mapper for the Xbox360 Guitar Hero Contorller
+
+## Getting Started
 
 This program is intended for the Guitar Hero World Tour Controller, but can work with pretty much anyother device including the regular Xbox360 Gamepad.
+
+###Sending MIDI Messages
+```C++
+#include "midi.h"
+
+MIDI midi
+
+midi.sendMessage(midi.noteOn(0,60,127)); //On Channel 0 trigger midi note 60 @ 127 Velocity ON
+Sleep(1000); //Hold note for 1 sec
+midi.sendMessage(midi.noteOff(0,60,0)); //On Channel 0 trigger midi note 60 @ 127 Velocity OFF
+```
+###Xbox360 Peripheral Trigger Event
+```C++
+#include "360pad.h"
+
+Gamepad gamepad;
+
+if (!gamepad.Refresh()){
+	if (wasConnected){
+		wasConnected = false;
+
+		cout << "Please connect an Xbox 360 controller." << endl;
+	}
+}
+else{
+	//Gamepad Found!!
+	cout << "Controller connected on port " << gamepad.GetPort() << endl;
+
+	if(gamepad.IsPressed(gamepad.A.ID) == true){
+		//A Button was pressed
+	}
+
+	//...
+}
+```
+### Prerequisites
+
+OS: Win
+###Libraries
+##RtMidi - https://github.com/thestk/rtmidi
+##XInput - https://docs.microsoft.com/en-us/windows/desktop/xinput/xinput-versions
+##Hardware: All XBOX 360 Controller Devices
+
+## Deployment
+
+Download loopMIDI from http://www.tobias-erichsen.de/wp-content/uploads/2015/08/loopMIDISetup_1_0_13_24.zip
+Open loopMIDI.
+Activate a port.
+Build & Run project in IDE.
+Program will link the MIDI to this port.
+Connect to your favourite soft sampler.
+Shred away!!!
+
+## Authors
+
+* **Jack Biles** - *Initial work* - [JRB-Useless-Inventions](https://github.com/JRB-Useless-Inventions)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 * Default Map
 
@@ -35,6 +109,10 @@ Activate a port.
 Program will link the MIDI to this port.
 Connect to your favourite soft sampler.
 Shred away.
+
+Default Functions:
+
+
 
 
 Upcoming Features:

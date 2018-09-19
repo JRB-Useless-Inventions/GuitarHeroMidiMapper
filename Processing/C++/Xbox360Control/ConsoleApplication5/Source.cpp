@@ -14,8 +14,9 @@ public:
 	void setDefaultValue(int);
 	int getDefaultValue();
 	bool held = false;
-	WORD ID = 0;
 	void onAction(bool trig);
+	WORD ID = 0;
+	
 private:
 	int value = 0;
 	int defaultValue = 0;
@@ -29,7 +30,7 @@ Button::Button(WORD id)
 Button::~Button()
 {
 }
-void MIDI::onAction(bool trig){
+void Button::onAction(bool trig){
 	if (trig) {
 		if (this->held == true){
 			//Do nothing...
@@ -61,10 +62,8 @@ void Button::setValue(int x) {
 class Trigger
 {
 public:
-	Button(WORD);
-	~Button();
-	void setValue(int);
-	int getValue();
+	Trigger(WORD);
+	~Trigger();
 	WORD ID = 0;
 	void onChange(int);
 private:
@@ -79,7 +78,7 @@ Trigger::Trigger(WORD id){
 Trigger::~Trigger(){
 
 }
-Trigger::onChange(int val){
+void Trigger::onChange(int val){
 	//Trigger value changed
 }
 
@@ -136,8 +135,7 @@ int main(){
 			Yellow.onAction(gamepad.IsPressed(Yellow.ID));
 			//BLUE
 			Blue.onAction(gamepad.IsPressed(Blue.ID));
-            
-            class
+
 
 			if (gamepad.getRightTriggerValue()) {
 				if(gamepad.getRightTriggerValue() == 0)

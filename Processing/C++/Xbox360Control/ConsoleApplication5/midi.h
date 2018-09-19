@@ -90,7 +90,7 @@ int MIDI::setPort(int port) {
 	}
 }
 
-vector<unsigned char> MIDI::noteOn(int chnl = 1, int pitch, int velo){
+vector<unsigned char> MIDI::noteOn(int chnl = 1, int pitch = 0, int velo = 0){
 	if (chnl <= 0){
 		chnl = 1;
 	}
@@ -105,7 +105,7 @@ vector<unsigned char> MIDI::noteOn(int chnl = 1, int pitch, int velo){
 
 }
 
-vector<unsigned char> MIDI::noteOff(int chnl = 0, int pitch, int velo){
+vector<unsigned char> MIDI::noteOff(int chnl = 0, int pitch = 0, int velo = 0){
 	if (chnl <= 0){
 		chnl = 1;
 	}
