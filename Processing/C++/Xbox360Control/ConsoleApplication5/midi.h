@@ -58,8 +58,7 @@ bool MIDI::sendMessage(vector<unsigned char> in) {
 	}
 	catch (const std::exception&)
 	{
-		cout << 111;
-		throw "MIDI Message not sent";
+		//throw "MIDI Message not sent";
 		return false; //Message not sent
 	}	
 }

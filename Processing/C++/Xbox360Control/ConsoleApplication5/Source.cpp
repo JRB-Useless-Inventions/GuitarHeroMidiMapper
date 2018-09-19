@@ -124,7 +124,7 @@ int main(){
 				catch (const std::exception&)
 				{
 					//Alert user the midi message failed to send
-					throw "MIDI Message not sent";
+					//throw "MIDI Message not sent";
 				}
 			}
 			//GREEN
@@ -150,7 +150,7 @@ int main(){
 				//cout << "Left Trigger Deactivated" << endl;
 			}
 			
-			if (gamepad.IsPressed(StrumDown.ID)) {
+			if (gamepad.IsPressed(StrumDown.ID) == true || gamepad.IsPressed(StrumUp.ID) == true) {
 				int note = Green.getValue() + 
 					Red.getValue() + 
 					Yellow.getValue() + 
@@ -164,7 +164,6 @@ int main(){
 					midi.sendMessage(midi.noteOn(0,note+tuning,127));
 					lastNote = midi.message[1];
 
-					cout << "(Down) button pressed" << endl;
 					StrumDown.held = false;
 				}
 
