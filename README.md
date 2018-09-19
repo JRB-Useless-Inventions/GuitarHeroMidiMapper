@@ -67,9 +67,9 @@ Orange is TBC on functionality.
 
 ### Prerequisites
 
-OS: Win
+#### OS: Win
 
-#### Libraries
+### Libraries
 
 #### RtMidi - https://github.com/thestk/rtmidi
 #### XInput - https://docs.microsoft.com/en-us/windows/desktop/xinput/xinput-versions
