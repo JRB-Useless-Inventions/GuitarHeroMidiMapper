@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <Windows.h>
+#include <thread>
 #include "midi.h"
 #include "360pad.h"
 
@@ -14,7 +15,7 @@ public:
 	void setDefaultValue(int);
 	int getDefaultValue();
 	bool held = false;
-	void onAction(bool trig);
+	void onAction(int trig);
 	WORD ID = 0;
 	
 private:
@@ -30,19 +31,13 @@ Button::Button(WORD id)
 Button::~Button()
 {
 }
-void Button::onAction(bool trig){
-	if (trig) {
-		if (this->held == true){
-			//Do nothing...
-		}
-		else{
-			this->setValue(this->getDefaultValue());
-			this->held = false;
-		}
-		this->held = true;
+void Button::onAction(int trig){
+	//cout << trig << endl;
+	if (trig > 0)
+	{
+		this->setValue(this->getDefaultValue());
 	}
 	else {
-		this->held = false;
 		this->setValue(0);
 	}
 }
@@ -127,16 +122,6 @@ int main(){
 					//throw "MIDI Message not sent";
 				}
 			}
-			//GREEN
-			Green.onAction(gamepad.IsPressed(Green.ID));
-			//RED
-			Red.onAction(gamepad.IsPressed(Red.ID));
-			//YELLOW
-			Yellow.onAction(gamepad.IsPressed(Yellow.ID));
-			//BLUE
-			Blue.onAction(gamepad.IsPressed(Blue.ID));
-
-
 			if (gamepad.getRightTriggerValue()) {
 				if(gamepad.getRightTriggerValue() == 0)
 
@@ -151,31 +136,55 @@ int main(){
 			}
 			
 			if (gamepad.IsPressed(StrumDown.ID) == true || gamepad.IsPressed(StrumUp.ID) == true) {
-				int note = Green.getValue() + 
-					Red.getValue() + 
-					Yellow.getValue() + 
-					Blue.getValue();
-
-				if (StrumDown.held == true) {
+				if (StrumDown.held == true || StrumUp.held == true) {
 					//Do nothing...
 				}
 				else {
+					//Delay added to allow for human reaction times with button presses
+					int delayWindow = 20; //Time delay 0.00xx ms
+					int inc = 1; //0.00xxms Increment
+					int note;
+					for (int step = 0; step < delayWindow; step++)
+					{
+						//GREEN
+						//thread greenAction(&Gamepad::IsPressed, gamepad, Green.ID);
+						//greenAction.join();
+						gamepad.Refresh(); //Recheck state of pad
+						cout << gamepad.IsPressed(Green.ID) << endl;
+						Green.onAction(gamepad.IsPressed(Green.ID));
+						//RED
+						Red.onAction(gamepad.IsPressed(Red.ID));
+						//YELLOW
+						Yellow.onAction(gamepad.IsPressed(Yellow.ID));
+						//BLUE
+						Blue.onAction(gamepad.IsPressed(Blue.ID));
+
+						note = Green.getValue() +
+							Red.getValue() +
+							Yellow.getValue() +
+							Blue.getValue();
+
+						Sleep(inc);
+					}
+
 					//Initial Press
 					midi.sendMessage(midi.noteOn(0,note+tuning,127));
 					lastNote = midi.message[1];
 
+					StrumUp.held = false;
 					StrumDown.held = false;
 				}
 
-				Sleep(10); // Platform-dependent ... see example in tests directory.
 				StrumDown.held = true;
+				StrumUp.held = true;
 			}
 			else {
 
 				midi.sendMessage(midi.noteOff(0,lastNote,0));
+				StrumUp.held = false;
 				StrumDown.held = false;
 			}
 		}//Controller Connected
-		Sleep(10);
+		Sleep(1);//Fallback buffer delay
 	}//Forever Loop
 }//Main
