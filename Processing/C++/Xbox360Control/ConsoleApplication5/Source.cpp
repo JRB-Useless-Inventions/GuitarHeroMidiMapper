@@ -1,7 +1,6 @@
 #include <string>
 #include <iostream>
 #include <Windows.h>
-#include <thread>
 #include "midi.h"
 #include "360pad.h"
 
@@ -79,7 +78,7 @@ void Trigger::onChange(int val){
 
 int main(){
 	int lastNote = 0;
-	Gamepad gamepad;
+	Gamepad gamepad; //360 Gamepad
 
 	Button Green(gamepad.A);
 	Green.setDefaultValue(1);
@@ -94,8 +93,8 @@ int main(){
 	Button StrumUp(gamepad.DPU);
 	Button StrumDown(gamepad.DPD);
 
-	MIDI midi;
-	int tuning = 32;
+	MIDI midi; //RtMidi
+	int tuning = 52-11;
 	midi.setPort(1);
 	bool wasConnected = true;
 
@@ -113,7 +112,7 @@ int main(){
 				wasConnected = true;
 				try
 				{
-					midi.sendMessage(midi.message); // Test Connection
+					//midi.sendMessage(midi.message); // Test Connection
 					cout << "Controller connected on port " << gamepad.GetPort() << endl;
 				}
 				catch (const std::exception&)
@@ -141,16 +140,13 @@ int main(){
 				}
 				else {
 					//Delay added to allow for human reaction times with button presses
-					int delayWindow = 20; //Time delay 0.00xx ms
+					int delayWindow = 17; //Time delay 0.00xx ms
 					int inc = 1; //0.00xxms Increment
 					int note;
 					for (int step = 0; step < delayWindow; step++)
 					{
-						//GREEN
-						//thread greenAction(&Gamepad::IsPressed, gamepad, Green.ID);
-						//greenAction.join();
 						gamepad.Refresh(); //Recheck state of pad
-						cout << gamepad.IsPressed(Green.ID) << endl;
+						//GREEN
 						Green.onAction(gamepad.IsPressed(Green.ID));
 						//RED
 						Red.onAction(gamepad.IsPressed(Red.ID));

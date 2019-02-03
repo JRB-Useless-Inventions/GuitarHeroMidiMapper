@@ -115,7 +115,6 @@ bool Gamepad::Refresh()
 
 bool Gamepad::IsPressed(WORD button)
 {
-	//cout << (state.Gamepad.wButtons & button) << endl;
 	return (state.Gamepad.wButtons & button) != 0;
 
 }
