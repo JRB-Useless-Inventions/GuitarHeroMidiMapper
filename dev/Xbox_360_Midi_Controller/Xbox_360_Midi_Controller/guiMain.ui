@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>guiMainClass</class>
+ <widget class="QMainWindow" name="guiMainClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>guiMain</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QListWidget" name="midiDeviceList">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>50</y>
+      <width>256</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>2</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QPushButton" name="deviceScan">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>60</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>SCAN</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>600</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="guiMain.qrc"/>
+ </resources>
+ <connections/>
+</ui>
