@@ -1,10 +1,5 @@
 <RCC>
   <qresource prefix="Buttons">
-    <file>BLUE_PRESSED.png</file>
-    <file>GREEN_PRESSED.png</file>
-    <file>ORANGE_PRESSED.png</file>
-    <file>RED_PRESSED.png</file>
-    <file>YELLOW_PRESSED.png</file>
     <file>BLUE_NOT_PRESSED.png</file>
     <file>GREEN_NOT_PRESSED.png</file>
     <file>ORANGE_NOT_PRESSED.png</file>

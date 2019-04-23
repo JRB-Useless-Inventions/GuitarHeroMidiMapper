@@ -95,7 +95,6 @@ int main(){
 
 	MIDI midi; //RtMidi
 	int tuning = 52-11;
-	midi.setPort(1);
 	bool wasConnected = true;
 
 	while (true){

@@ -30,5 +30,6 @@ Before you start, make sure you have the relevant `Hardware` & `Software` to run
 * [Xbox360 Wireless Receiver](https://www.amazon.co.uk/Official-Wireless-Gaming-Receiver-Windows/dp/B000MGVAAQ) - For wireless connectivity
 
 ## Software
+* Qt5Cored.dll
 * Windows OS 7/8/10
 * [LoopMidi](https://www.tobias-erichsen.de/software/loopmidi.html)

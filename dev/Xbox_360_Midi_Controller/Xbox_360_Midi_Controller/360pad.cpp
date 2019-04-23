@@ -90,3 +90,35 @@ bool Gamepad::calibrate() {
 	//Read all button and pad states for x seconds. These vlaues are there 0 positions
 	return false;
 }
+
+Button::Button()
+{
+	
+}
+
+void Button::setID(WORD id) {
+	this->ID = id;
+}
+
+void Button::onAction(int trig) {
+	//cout << trig << endl;
+	if (trig > 0)
+	{
+		this->setValue(this->getDefaultValue());
+	}
+	else {
+		this->setValue(0);
+	}
+}
+int Button::getDefaultValue() {
+	return this->defaultValue;
+}
+void Button::setDefaultValue(int x) {
+	this->defaultValue = x;
+}
+int Button::getValue() {
+	return this->value;
+}
+void Button::setValue(int x) {
+	this->value = x;
+}

@@ -1,7 +1,24 @@
+#pragma once
 #include <windows.h>
 #include <Xinput.h>
 #include <math.h>
-#include <stdio.h>
+class Button
+{
+public:
+	Button();
+	void setID(WORD);
+	void setValue(int);
+	int getValue();
+	void setDefaultValue(int);
+	int getDefaultValue();
+	bool held = false;
+	void onAction(int trig);
+	WORD ID = 0;
+
+private:
+	int value = 0;
+	int defaultValue = 0;
+};
 
 class Gamepad
 {

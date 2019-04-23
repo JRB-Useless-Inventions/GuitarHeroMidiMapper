@@ -13,7 +13,7 @@ MIDI::~MIDI() {
 
 vector<unsigned char> sanitizeArrayValue(vector<unsigned char> arr, int max) {
 	//If a value of an array is out of bounds, re-write to maximum value
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < arr.size(); i++) {
 		if (arr[i] > max) {
 			arr[i] = max;
 		}
@@ -33,55 +33,13 @@ bool MIDI::sendMessage(vector<unsigned char> in) {
 
 	try
 	{
-		midiout->sendMessage(&out); //Once the message is set the marray is reset to 0
+		midiout->sendMessage(&out); //Once the message is set the array is reset to 0
 		return true; //Message Sent
 	}
 	catch (const std::exception&)
 	{
 		//throw "MIDI Message not sent";
 		return false; //Message not sent
-	}
-}
-
-vector <string> MIDI::getPorts() {
-	nPorts = midiout->getPortCount();
-
-	if (nPorts == 0) {
-		cout << "No ports available!\n";
-	}
-	vector <string> portList;
-
-	for (int i = 0; i < nPorts; i++)
-	{
-		portList.push_back(midiout->getPortName(i));
-	}
-
-	return portList;
-}
-
-int MIDI::setPort(int port) {
-	nPorts = midiout->getPortCount();
-
-	if (nPorts == 0) {
-		cout << "No ports available!\n";
-		return 0;
-	}
-	else if (port > nPorts) {
-		cout << "PORT NUMBER EXCEEDS MAXIMUM OF " << nPorts;
-	}
-	else {
-		try
-		{
-			midiout->openPort(port);
-			cout << midiout->getPortName(port) << endl;
-			return true; //Message sent
-		}
-		catch (const std::exception&)
-		{
-			return false; //Message not sent
-		}
-
-
 	}
 }
 
@@ -112,4 +70,71 @@ vector<unsigned char> MIDI::noteOff(int chnl = 0, int pitch = 0, int velo = 0) {
 	this->message[2] = velo;
 
 	return this->message;
+}
+
+vector <string> MIDI::getPorts() {
+	int nPorts = midiout->getPortCount();
+	this->outputPorts.clear();
+	if (nPorts == 0) {
+		throw "no Ports Avalible";
+	}
+
+	for (int i = 0; i < nPorts; i++)
+	{
+		outputPorts.push_back(midiout->getPortName(i));
+	}
+
+	return outputPorts;
+}
+
+void MIDI::openPort(string port = "default") {
+	this->closePort();
+	int portNum;
+	if (port == "default") {
+		//Run last know active port
+		for (int i = 0; i < outputPorts.size(); i++)
+		{
+			if (outputPorts[i] == this->lastKnownActiveOutputPort) {
+				portNum = i;
+				break;
+			}
+		}
+	}
+	else {
+		for (int i = 0; i < outputPorts.size(); i++)
+		{
+			if (outputPorts[i] == port) {
+				portNum = i;
+				break;
+			}
+			else if (i == outputPorts.size()) {
+				//Port not found
+				throw "Port Not Valid";
+			}
+		}
+	}
+
+	try
+	{
+		midiout->openPort(portNum);
+		this->lastKnownActiveOutputPort = outputPorts[portNum];
+	}
+	catch (const exception&)
+	{
+		throw "There was an error setting the MIDI port";
+	}
+
+}
+
+void MIDI::closePort() {
+
+	try
+	{
+		midiout->closePort();
+	}
+	catch (const std::exception&)
+	{
+		throw "there was an error closing the MIDI port";
+	}
+
 }
