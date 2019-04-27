@@ -52,24 +52,19 @@ guiMain::guiMain(QWidget *parent)
 	//Connect button to listener
 	QObject::connect(ui.deviceScan, SIGNAL(clicked()),
 		this, SLOT(updatePortList()));
-	//Connect button to listener
-	QObject::connect(ui.midiMessageTest, SIGNAL(clicked()),
-		this, SLOT(testMidiConnection()));
 	
 }
 
 void guiMain::deviceItemActivated(QListWidgetItem *item) {
 	QString s = item->text(); //Convert item into QString object
 	//Code goes here
-	midi.openPort(s.toStdString());
-	ui.greenOff_Label->hide();
+	emit this->openMidiPort(s.toStdString());
 }
 
 void guiMain::updatePortList() {
-	//Code goes here
 	//Scan for avaliable ports
 	//Update list widget
-	vector <string> portNames = midi.getPorts();
+	vector <string> portNames = emit this->getPorts();
 	ui.midiDeviceList->clear();
 	for (int i = 0; i < portNames.size() ; i++)
 	{
@@ -77,9 +72,6 @@ void guiMain::updatePortList() {
 	}
 }
 
-void guiMain::testMidiConnection() {
-	midi.sendMessage(midi.noteOn(0, 60, 90));
-}
 void guiMain::updateControllerList(int portNum) {
 	bool tog = true;
 	switch (portNum)

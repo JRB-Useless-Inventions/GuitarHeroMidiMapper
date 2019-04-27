@@ -19,10 +19,14 @@ public:
 	Button Orange;
 	Button StrumUp;
 	Button StrumDown;
-	int tuning = 52 - 11;
+	int tuning = 60;
 	void run();
 	bool wasConnected = true;
 	int lastNote = 0;
+public slots:
+	void openMidiPort(string);
+	void closeMidiPort();
+	vector <string> getPorts();
 signals:
 	void controllerConnected(int);
 	void greenButtonPressed(bool);

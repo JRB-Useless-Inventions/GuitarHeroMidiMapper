@@ -75,7 +75,6 @@ void controllerThread::run() {
 					//Initial Press
 					midi.sendMessage(midi.noteOn(0, note + tuning, 127));
 					lastNote = midi.message[1];
-
 					StrumUp.held = false;
 					StrumDown.held = false;
 				}
@@ -84,7 +83,6 @@ void controllerThread::run() {
 				StrumUp.held = true;
 			}
 			else {
-
 				midi.sendMessage(midi.noteOff(0, lastNote, 0));
 				StrumUp.held = false;
 				StrumDown.held = false;
@@ -93,4 +91,14 @@ void controllerThread::run() {
 		Sleep(1);//Fallback buffer delay
 	}
 	
+}
+
+void controllerThread::openMidiPort(string portName) {
+	midi.openPort(portName);
+}
+void controllerThread::closeMidiPort() {
+	midi.closePort();
+}
+vector <string> controllerThread::getPorts() {
+	return midi.getPorts();
 }

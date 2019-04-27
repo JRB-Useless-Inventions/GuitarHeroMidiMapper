@@ -11,8 +11,23 @@ int main(int argc, char *argv[])
 	guiMain *w = new guiMain();
 	w->show();
 
-	//Connect Controller Connection to listener
 	controllerThread *ct = new controllerThread();
+	//Connect GUI to Controller
+	QObject::connect(
+		w, SIGNAL(openMidiPort(string)),
+		ct, SLOT(openMidiPort(string))
+	);
+	QObject::connect(
+		w, SIGNAL(closeMidiPort()),
+		ct, SLOT(closeMidiPort())
+	);
+	QObject::connect(
+		w, SIGNAL(getPorts()),
+		ct, SLOT(getPorts())
+	);
+
+	//Connect Controller to GUI
+	
 	QObject::connect(
 		ct, SIGNAL(controllerConnected(int)),
 		w, SLOT(updateControllerList(int))

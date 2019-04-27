@@ -24,6 +24,5 @@ private:
 	int MAX_VALUE = 255;
 	RtMidiOut *midiout = new RtMidiOut();
 	string lastKnownActiveOutputPort;
-	
 };
 

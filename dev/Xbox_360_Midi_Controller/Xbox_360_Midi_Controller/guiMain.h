@@ -15,13 +15,16 @@ public:
 public slots:
 	void deviceItemActivated(QListWidgetItem *item);
 	void updatePortList();
-	void testMidiConnection();
 	void updateControllerList(int);
 	void greenButtonPressed(bool);
 	void redButtonPressed(bool);
 	void yellowButtonPressed(bool);
 	void blueButtonPressed(bool);
 	void orangeButtonPressed(bool);
+signals:
+	void openMidiPort(string);
+	void closeMidiPort();
+	vector <string> getPorts();
 private:
 	Ui::guiMainClass ui;
 };

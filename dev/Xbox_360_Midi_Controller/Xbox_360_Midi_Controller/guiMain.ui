@@ -37,34 +37,6 @@
      <string>SCAN</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="midiMessageTest">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>190</y>
-      <width>93</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="focusPolicy">
-     <enum>Qt::NoFocus</enum>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="text">
-     <string>Test</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
-    </property>
-    <property name="autoExclusive">
-     <bool>true</bool>
-    </property>
-    <property name="flat">
-     <bool>false</bool>
-    </property>
-   </widget>
    <widget class="QWidget" name="formLayoutWidget">
     <property name="geometry">
      <rect>
@@ -430,7 +402,6 @@
    <zorder>greenOff_Label</zorder>
    <zorder>midiDeviceList</zorder>
    <zorder>deviceScan</zorder>
-   <zorder>midiMessageTest</zorder>
    <zorder>formLayoutWidget</zorder>
    <zorder>yellowOff_Label</zorder>
    <zorder>yellowOn_Label</zorder>
